@@ -159,4 +159,38 @@ class LoansController extends Controller
             $loan->fine_amount = 0;
         }
     }
+
+    // Reports and Analytics (Calculate Issued Books Count, Overdue Book & Total Fine Amounts)
+
+    // Get issued books count
+    public function IssuedBooksCount() {
+        $issuedBooksCount = Loan::where('is_returned', 0)->count();
+        return response()->json([
+            'status' => true,
+            'message' => 'Issued books count',
+            'data' => $issuedBooksCount
+        ], 200);
+    }
+
+    // Get overdue books count
+    public function OverdueBooksCount() {
+        $overdueBooksCount = Loan::where('is_returned', 0)
+                                   ->where('due_date', '<', Carbon::now())
+                                   ->count();
+        return response()->json([
+            'status' => true,
+            'message' => 'Overdue books count',
+            'data' => $overdueBooksCount
+        ], 200);
+    }
+
+    // Get total fine amount
+    public function TotalFinesAmount() {
+        $totalFineAmount = Loan::where('is_returned', 1)->sum('fine_amount');
+        return response()->json([
+            'status' => true,
+            'message' => 'Total fines amount',
+            'data' => $totalFineAmount
+        ], 200);
+    }
 }

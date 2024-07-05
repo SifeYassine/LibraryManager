@@ -58,6 +58,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/reservations/index', [ReservationsController::class, 'index']);
     Route::put('/reservations/{id}/notify', [ReservationsController::class, 'notify']);
 
+    // Reports & Analytics routes
+    Route::get('/reports/issued-books', [LoansController::class, 'IssuedBooksCount']);
+    Route::get('/reports/overdue-books', [LoansController::class, 'OverdueBooksCount']);
+    Route::get('/reports/fines', [LoansController::class, 'TotalFinesAmount']);
+
 });
 
 
