@@ -58,7 +58,7 @@ class MembersController extends Controller
             $members = $query->paginate(5);
 
             // Map through each member and modify structure
-            $members = $members->map(function ($member) {
+            $members->transform(function ($member) {
                // Convert the members query result to an array
                $memberArray = $member->toArray();
 

@@ -7,6 +7,7 @@ use App\Http\Controllers\api\genres\GenresController;
 use App\Http\Controllers\api\members\MembersController;
 use App\Http\Controllers\api\books\BooksController;
 use App\Http\Controllers\api\loans\LoansController;
+use App\Http\Controllers\api\reservations\ReservationsController;
 
 // Register & login routes
 Route::post('/register', [AuthController::class, 'register']);
@@ -51,6 +52,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/loans/create', [LoansController::class, 'create']);
     Route::get('/loans/index', [LoansController::class, 'index']);
     Route::put('/loans/{id}/return', [LoansController::class, 'return']);
+
+    // Reservations routes
+    Route::post('/reservations/create', [ReservationsController::class, 'create']);
+    Route::get('/reservations/index', [ReservationsController::class, 'index']);
+    Route::put('/reservations/{id}/notify', [ReservationsController::class, 'notify']);
 
 });
 

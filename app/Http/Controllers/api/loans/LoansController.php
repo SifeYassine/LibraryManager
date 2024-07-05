@@ -59,10 +59,7 @@ class LoansController extends Controller
     public function index()
     {
         try {
-            $query = Loan::with(['member', 'book']);
-
-            // Paginate the results
-            $loans = $query->paginate(5);
+            $loans = Loan::with(['member', 'book'])->get();
 
             // Map through each loan and modify structure
             $loans->transform(function ($loan) {
@@ -89,25 +86,10 @@ class LoansController extends Controller
                 return $loanArray;
             });
 
-            // Convert pagination result to array
-            $keys = $loans->toArray();
-
-            // Remove unwanted keys
-            unset(
-                $keys['first_page_url'],
-                $keys['from'],
-                $keys['last_page_url'],
-                $keys['links'],
-                $keys['next_page_url'],
-                $keys['path'],
-                $keys['prev_page_url'],
-                $keys['to']
-            );
-
             return response()->json([
                 'status' => true,
                 'message' => 'All loans',
-                'data' => $keys
+                'data' => $loans
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
@@ -130,15 +112,15 @@ class LoansController extends Controller
             }
 
             // Validate the return_date
-            $validator = Validator::make($request->all(), [
+            $validateLoan = validator::make($request->all(), [
                 'return_date' => 'required|date|after_or_equal:issued_date'
             ]);
 
-            if ($validator->fails()) {
+            if ($validateLoan->fails()) {
                 return response()->json([
                     'status' => false,
                     'message' => 'Validation error',
-                    'errors' => $validator->errors()
+                    'errors' => $validateLoan->errors()
                 ], 400);
             }
 
