@@ -81,12 +81,6 @@ Before you begin, ensure you have met the following requirements:
     php artisan migrate
     ```
 
-2. **(Optional) Run the database seeders:**
-
-    ```bash
-    php artisan db:seed
-    ```
-
 ## Serving the Application
 
 1. **Serve the application locally:**
